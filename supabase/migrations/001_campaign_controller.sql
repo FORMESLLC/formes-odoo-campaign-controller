@@ -42,17 +42,13 @@ create table if not exists campaign_ctrl.run_log (
 revoke all on all tables in schema campaign_ctrl from public, anon, authenticated;
 revoke all on all sequences in schema campaign_ctrl from public, anon, authenticated;
 
-create extension if not exists pg_cron;
-create extension if not exists pg_net;
-create extension if not exists vault with schema vault;
-
 do $$
 begin
   if not exists (
     select 1 from vault.decrypted_secrets where name = 'formes_campaign_controller_key'
   ) then
     perform vault.create_secret(
-      encode(gen_random_bytes(32), 'hex'),
+      encode(extensions.gen_random_bytes(32), 'hex'),
       'formes_campaign_controller_key',
       'Internal authentication key for FORMES campaign controller cron'
     );
