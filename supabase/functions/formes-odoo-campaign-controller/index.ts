@@ -8,7 +8,6 @@ const BATCH = 10;
 const ATLAS = "https://www.formessolutions.com/services#technical-capability-atlas";
 const LOCK_ID = 72051039;
 
-type Tx = ReturnType<ReturnType<typeof postgres>["begin"]> extends Promise<infer T> ? T : any;
 
 function muscatParts() {
   const parts = Object.fromEntries(
